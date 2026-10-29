@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 1 Interactive | Mission-to-Decision Alignment Audit</title>
+<style>:root{--red:#d34147;--red-d:#a8353a;--ink:#222;--paper:#edebe8;--card:#fff;--line:#d9d4cc;--teal:#2a7f86;--gold:#e0a93b;--green:#3f8f5b;--muted:#5c5852}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;font-size:16px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0 0 .5em}
+h2{font-size:1.6rem}h3{font-size:1.2rem}
+p{margin:0 0 .8em}
+.hero{position:relative;color:#fff;min-height:290px;display:flex;align-items:center;overflow:hidden;background:#1b1b1d}
+.hero>svg{position:absolute;inset:0;width:100%;height:100%}
+.hero .inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 24px;width:100%}
+.hero .inner>*{max-width:560px}
+.badge{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:12px}
+.hero h1{font-size:2.3rem;margin-bottom:.3em;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.hero p{font-size:1.05rem;opacity:.95;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+.card{background:var(--card);border-radius:16px;padding:24px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--line)}
+.card.accent{border-left:6px solid var(--red)}
+.quote{border-left:4px solid var(--gold);background:#faf5e8;padding:12px 16px;border-radius:0 10px 10px 0;font-family:Georgia,serif;font-style:italic;margin:0 0 16px}
+.quote small{display:block;font-family:system-ui,sans-serif;font-style:normal;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.hero .inner>*{max-width:100%}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;border-bottom:2px solid var(--line);padding-bottom:10px}
+.tab{border:2px solid var(--line);background:#fff;color:var(--ink);padding:9px 16px;border-radius:99px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+.tab[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.tab:focus-visible,.btn:focus-visible,.opt:focus-visible,.chip:focus-visible,.venn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.panel[hidden]{display:none}
+.btn{background:var(--red);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:1rem;font-family:inherit}
+.btn:hover{background:var(--red-d)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fff}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;font-size:1rem;font-family:inherit;color:var(--ink);transition:all .15s}
+.opt:hover:not([disabled]){border-color:var(--red);background:#fdf3f3}
+.opt[disabled]{cursor:default}
+.opt.chosen{border-color:var(--ink);background:#f4f1ec}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;color:#fff}
+.t-good{background:var(--green)}.t-mid{background:#b98617}.t-bad{background:#c0392b}.t-ink{background:var(--ink)}
+.feedback{border-radius:12px;padding:14px 16px;margin:12px 0;background:#f4f1ec;border-left:5px solid var(--ink)}
+.feedback.good{border-color:var(--green);background:#eaf5ee}.feedback.mid{border-color:#b98617;background:#fbf4e2}.feedback.bad{border-color:#c0392b;background:#fbeceb}
+.meta{display:grid;gap:6px;background:#f7f5f1;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:.95rem}
+.meta b{color:var(--red-d)}
+.bar{height:14px;background:#e6e2db;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--red);border-radius:99px;transition:width .5s}
+.steps{display:flex;gap:6px;margin-bottom:14px}
+.steps span{flex:1;height:8px;border-radius:99px;background:#e0dcd5;transition:background .3s}
+.steps span.on{background:var(--red)}.steps span.good{background:var(--green)}.steps span.mid{background:#d8a62b}.steps span.bad{background:#c0392b}
+.chip{border:2px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--red)}
+textarea,select,input[type=text]{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+.takeaways{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.takeaways{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.takeaways{grid-template-columns:1fr}}
+.take{background:#fff;border-radius:14px;padding:16px;border-top:5px solid var(--red);border:1px solid var(--line);border-top:5px solid var(--red)}
+.take h3{font-size:1rem;margin-bottom:.3em}.take p{font-size:.9rem;margin:0;color:var(--muted)}
+footer{max-width:1100px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:.85rem}
+.venn{cursor:pointer;transition:transform .2s,opacity .2s;transform-box:fill-box;transform-origin:center}
+.venn:hover{transform:scale(1.04)}
+.icon{width:44px;height:44px;color:var(--red-d);flex:none}
+.sr{position:absolute;left:-9999px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .3s}
+.venn-wrap,.ffwrap,.hubwrap,.ringwrap,.gauge-wrap{width:100%}
+svg{max-width:100%}
+
+.venn-wrap{max-width:420px;margin:0 auto}
+.defbox{background:#f7f5f1;border-radius:12px;padding:14px 16px;min-height:150px;border-left:6px solid var(--line)}
+.gauge-wrap{max-width:340px;margin:0 auto}
+.tally{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.tally .pill{font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:99px;background:#e6e2db}
+.pill.good{background:#cfe8d8}.pill.mid{background:#f3e3b5}.pill.bad{background:#f2c9c5}
+.mission{font-family:Georgia,serif;font-size:1.15rem;background:#222;color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px}
+.mission small{display:block;font-family:system-ui,sans-serif;color:#e0a93b;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none"><defs><symbol id="i-data" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="24" cy="10" rx="14" ry="5"/><path d="M10 10v12c0 3 6 5 14 5s14-2 14-5V10M10 22v12c0 3 6 5 14 5s14-2 14-5V22"/></symbol><symbol id="i-ehr" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="32" height="36" rx="4"/><path d="M16 16h16M16 24h16M16 32h9"/></symbol><symbol id="i-culture" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="6"/><circle cx="34" cy="18" r="5"/><path d="M5 38c0-7 5-12 11-12s11 5 11 12M28 38c0-5 3-9 7-9s8 3 8 9"/></symbol><symbol id="i-app" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="4" width="20" height="40" rx="5"/><path d="M21 38h6"/><path d="M19 20l4 4 7-8"/></symbol><symbol id="i-paper" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4h18l8 8v32H12z"/><path d="M30 4v8h8M18 22h14M18 30h14M18 38h8"/><path d="M6 36l8-8" stroke="#d34147"/></symbol><symbol id="i-handshake" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22l10-9 8 3 8-3 14 9-12 14-6 2-6-4-4 2-8-8z"/><path d="M22 16l-6 8 8 6"/></symbol><symbol id="i-check" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><path d="M15 25l7 7 12-14"/></symbol></defs></svg>
+<header class="hero"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A winding path leading toward a rising sun over mountains, with a compass">
+<defs>
+<linearGradient id="w1sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1b1d"/><stop offset=".55" stop-color="#4a1f24"/><stop offset="1" stop-color="#a8353a"/></linearGradient>
+<radialGradient id="w1glow"><stop offset="0" stop-color="#ffd7a8" stop-opacity=".95"/><stop offset="1" stop-color="#ffd7a8" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1200" height="320" fill="url(#w1sky)"/><circle cx="683" cy="48" r="1.2" fill="#fff" opacity="0.8"/><circle cx="118" cy="28" r="1.6" fill="#fff" opacity="0.35"/><circle cx="768" cy="24" r="1.6" fill="#fff" opacity="0.35"/><circle cx="96" cy="32" r="1.2" fill="#fff" opacity="0.5"/><circle cx="163" cy="71" r="1" fill="#fff" opacity="0.8"/><circle cx="889" cy="25" r="1.6" fill="#fff" opacity="0.35"/><circle cx="477" cy="25" r="1.6" fill="#fff" opacity="0.8"/><circle cx="832" cy="22" r="1" fill="#fff" opacity="0.35"/><circle cx="1160" cy="44" r="1.2" fill="#fff" opacity="0.5"/><circle cx="315" cy="148" r="1" fill="#fff" opacity="0.8"/><circle cx="651" cy="56" r="1" fill="#fff" opacity="0.8"/><circle cx="404" cy="105" r="1" fill="#fff" opacity="0.8"/><circle cx="148" cy="25" r="1.6" fill="#fff" opacity="0.35"/><circle cx="1036" cy="146" r="1.2" fill="#fff" opacity="0.5"/><circle cx="973" cy="126" r="1.2" fill="#fff" opacity="0.5"/><circle cx="528" cy="56" r="1.6" fill="#fff" opacity="0.35"/><circle cx="187" cy="86" r="1.6" fill="#fff" opacity="0.5"/><circle cx="723" cy="124" r="1.2" fill="#fff" opacity="0.8"/><circle cx="169" cy="40" r="1.6" fill="#fff" opacity="0.5"/><circle cx="357" cy="97" r="1" fill="#fff" opacity="0.5"/><circle cx="883" cy="20" r="1.6" fill="#fff" opacity="0.35"/><circle cx="1162" cy="90" r="1.2" fill="#fff" opacity="0.8"/><circle cx="737" cy="137" r="1.6" fill="#fff" opacity="0.5"/><circle cx="160" cy="33" r="1.2" fill="#fff" opacity="0.5"/><circle cx="153" cy="25" r="1.6" fill="#fff" opacity="0.8"/><circle cx="654" cy="124" r="1.2" fill="#fff" opacity="0.8"/><circle cx="810" cy="98" r="1" fill="#fff" opacity="0.5"/><circle cx="747" cy="53" r="1.6" fill="#fff" opacity="0.35"/><circle cx="1031" cy="25" r="1" fill="#fff" opacity="0.5"/><circle cx="284" cy="73" r="1.2" fill="#fff" opacity="0.5"/><circle cx="1036" cy="30" r="1" fill="#fff" opacity="0.5"/><circle cx="842" cy="150" r="1.2" fill="#fff" opacity="0.35"/><circle cx="901" cy="150" r="1.2" fill="#fff" opacity="0.8"/><circle cx="870" cy="101" r="1.6" fill="#fff" opacity="0.5"/><circle cx="492" cy="48" r="1" fill="#fff" opacity="0.35"/><circle cx="329" cy="69" r="1.6" fill="#fff" opacity="0.35"/><circle cx="44" cy="134" r="1.6" fill="#fff" opacity="0.35"/><circle cx="558" cy="82" r="1" fill="#fff" opacity="0.35"/><circle cx="878" cy="146" r="1.2" fill="#fff" opacity="0.8"/><circle cx="1179" cy="91" r="1" fill="#fff" opacity="0.8"/><circle cx="1075" cy="23" r="1.2" fill="#fff" opacity="0.8"/><circle cx="1165" cy="110" r="1.2" fill="#fff" opacity="0.5"/><circle cx="827" cy="36" r="1.2" fill="#fff" opacity="0.8"/><circle cx="840" cy="25" r="1" fill="#fff" opacity="0.35"/><circle cx="447" cy="122" r="1" fill="#fff" opacity="0.35"/><circle cx="716" cy="23" r="1" fill="#fff" opacity="0.35"/><circle cx="1180" cy="48" r="1.6" fill="#fff" opacity="0.35"/><circle cx="764" cy="16" r="1" fill="#fff" opacity="0.35"/><circle cx="790" cy="48" r="1.6" fill="#fff" opacity="0.5"/><circle cx="731" cy="103" r="1.2" fill="#fff" opacity="0.35"/><circle cx="256" cy="134" r="1.2" fill="#fff" opacity="0.5"/><circle cx="1010" cy="89" r="1" fill="#fff" opacity="0.35"/><circle cx="229" cy="97" r="1.6" fill="#fff" opacity="0.5"/><circle cx="1000" cy="51" r="1.6" fill="#fff" opacity="0.35"/><circle cx="440" cy="145" r="1.2" fill="#fff" opacity="0.35"/>
+<circle cx="880" cy="215" r="150" fill="url(#w1glow)"/>
+<circle cx="880" cy="215" r="58" fill="#f6b26b"/>
+<path d="M0 250 L120 190 L230 240 L360 160 L500 250 L640 185 L760 245 L900 200 L1040 250 L1200 195 L1200 320 L0 320Z" fill="#6a2c32"/>
+<path d="M0 285 L150 235 L290 280 L430 225 L590 288 L720 240 L860 290 L1010 238 L1200 285 L1200 320 L0 320Z" fill="#3b1a1f"/>
+<path d="M0 310 L200 285 L420 305 L700 280 L950 308 L1200 288 L1200 320 L0 320Z" fill="#1b1b1d"/>
+<path d="M700 320 C 760 300, 820 305, 825 280 S 880 262, 880 232" fill="none" stroke="#f1e6d8" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 12"/>
+<g transform="translate(1085 92)" opacity=".95">
+<circle r="46" fill="none" stroke="#f1e6d8" stroke-width="2.5"/><circle r="36" fill="none" stroke="#f1e6d8" stroke-width="1" stroke-dasharray="3 5"/>
+<path d="M0 -42 L9 0 L0 42 L-9 0Z" fill="#d34147"/><path d="M-42 0 L0 -8 L42 0 L0 8Z" fill="#f1e6d8"/><circle r="4" fill="#1b1b1d"/>
+<text y="-52" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#f1e6d8">N</text></g>
+</svg><div class="inner"><span class="badge">BUSN 480 · Week 1</span><h1>Mission-to-Decision Alignment Audit</h1><p>Strategy is stewardship. Test whether Veritas Health Group’s decisions match the words on its wall.</p></div></header>
+<main>
+<section class="card accent">
+<div class="quote">“Each of you should use whatever gift you have received to serve others, as faithful stewards of God’s grace in its various forms.”<small>1 Peter 4:10 (NIV, 2011)</small></div>
+<h2>Step 1 · Explore mission, vision, and purpose</h2>
+<p>These three statements work together to explain why an organization exists and where it is going. Select each circle to see how it applies to Veritas Health Group.</p>
+<div class="grid2">
+<div class="venn-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 400" role="img" aria-label="Venn diagram of mission, vision and purpose overlapping at aligned decisions">
+<g id="g-mission" class="venn" tabindex="0" role="button" aria-label="Mission"><circle cx="160" cy="155" r="105" fill="#d34147" fill-opacity=".78"/><text x="76" y="128" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#fff">Mission</text><text x="76" y="150" font-family="system-ui,sans-serif" font-size="13" fill="#fff">What we do</text><text x="76" y="166" font-family="system-ui,sans-serif" font-size="13" fill="#fff">&amp; for whom</text></g>
+<g id="g-vision" class="venn" tabindex="0" role="button" aria-label="Vision"><circle cx="280" cy="155" r="105" fill="#2a7f86" fill-opacity=".78"/><text x="300" y="128" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#fff">Vision</text><text x="300" y="150" font-family="system-ui,sans-serif" font-size="13" fill="#fff">The future we</text><text x="300" y="166" font-family="system-ui,sans-serif" font-size="13" fill="#fff">work toward</text></g>
+<g id="g-purpose" class="venn" tabindex="0" role="button" aria-label="Purpose"><circle cx="220" cy="258" r="105" fill="#e0a93b" fill-opacity=".82"/><text x="220" y="318" text-anchor="middle" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#222">Purpose</text><text x="220" y="337" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#222">Why it matters beyond profit</text></g>
+<circle cx="220" cy="196" r="30" fill="#222"/><text x="220" y="192" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#fff">ALIGNED</text><text x="220" y="205" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#fff">DECISIONS</text>
+</svg></div>
+<div><div id="def" class="defbox" aria-live="polite"><h3>Select a circle</h3><p>Click or tab to Mission, Vision, or Purpose to read the definition and the Veritas example.</p></div>
+<p style="margin-top:12px;color:var(--muted);font-size:.9rem">Where the three overlap, leaders make <b>aligned decisions</b>: the budgets, policies, and daily behaviors that prove the words are true.</p></div>
+</div></section>
+
+<section class="card">
+<h2>Step 2 · Run the alignment audit</h2>
+<p>You are the new Chief Strategy Officer. Apply the <b>case analysis method</b> to six decisions: define the problem, weigh the evidence, then recommend an action. The gauge shows the gap between what Veritas <i>says</i> and what its decisions <i>reinforce</i>.</p>
+<div class="mission"><small>Veritas Health Group mission</small>“To deliver compassionate, accessible care that restores health and dignity to every patient we serve.”</div>
+<div class="grid2">
+<div>
+<div class="steps" id="steps"></div>
+<div id="stage"></div>
+</div>
+<div>
+<div class="gauge-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 215" role="img" aria-label="Alignment gauge from gap to aligned">
+<path d="M40 170 A120 120 0 0 1 100 66.08 L115 92.06 A90 90 0 0 0 70 170Z" fill="#c0392b"/>
+<path d="M100 66.08 A120 120 0 0 1 220 66.08 L205 92.06 A90 90 0 0 0 115 92.06Z" fill="#e0a93b"/>
+<path d="M220 66.08 A120 120 0 0 1 280 170 L250 170 A90 90 0 0 0 205 92.06Z" fill="#3f8f5b"/>
+<text x="55" y="192" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#555">GAP</text>
+<text x="160" y="40" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#555">DRIFTING</text>
+<text x="265" y="192" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#555">ALIGNED</text>
+<g id="needle" style="transform-origin:160px 170px;transform:rotate(0deg);transition:transform .9s cubic-bezier(.3,1.4,.5,1)"><path d="M155 170 L160 82 L165 170Z" fill="#222"/></g>
+<circle cx="160" cy="170" r="11" fill="#222"/><circle cx="160" cy="170" r="4" fill="#fff"/>
+</svg></div>
+<p style="text-align:center;margin:4px 0 0"><b id="gaugeLabel">Awaiting your first recommendation</b></p>
+<div class="tally" id="tally"></div>
+</div></div>
+</section>
+
+<section class="card">
+<h2>Takeaways</h2>
+<div class="takeaways">
+<div class="take"><h3>Strategy is stewardship</h3><p>Choices are acts of faithful management of people, resources, and influence.</p></div>
+<div class="take"><h3>Alignment is measurable</h3><p>Compare what an organization says with what its decisions reinforce.</p></div>
+<div class="take"><h3>Cases need structure</h3><p>Define the problem, use evidence, recommend actions with consequences.</p></div>
+<div class="take"><h3>Leadership is behavior</h3><p>Effective leadership shows up in specific, repeatable actions.</p></div>
+</div></section>
+</main>
+<footer>Based on the BUSN 480 Week 1 Deep Dive | Intro to Leadership &amp; Management. Veritas Health Group scenarios are fictional teaching cases.</footer>
+<script>
+const DEFS={
+mission:{c:'#d34147',t:'Mission',d:'Describes what the organization does and for whom.',e:'“We deliver compassionate, accessible care to every patient we serve.” Notice it names an action (deliver care) and the people served (every patient).'},
+vision:{c:'#2a7f86',t:'Vision',d:'Describes the future the organization is working toward.',e:'“A community where quality care is within reach of every neighbor.” A vision looks ahead and gives a direction to measure progress against.'},
+purpose:{c:'#e0a93b',t:'Purpose',d:'Explains why the work matters beyond profit.',e:'“We steward healing resources for the good of people, not only for the balance sheet.” Purpose is the stewardship commitment behind every budget line.'}};
+const def=document.getElementById('def');
+['mission','vision','purpose'].forEach(k=>{
+ const g=document.getElementById('g-'+k);
+ const show=()=>{const x=DEFS[k];def.style.borderColor=x.c;def.innerHTML='<h3 style="color:'+x.c+'">'+x.t+'</h3><p><b>'+x.d+'</b></p><p>'+x.e+'</p>';};
+ g.addEventListener('click',show);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show();}});
+});
+
+const D=[
+{tag:'Budget',title:'Clinic hours',problem:'The Board wants to save $2.1M by cutting evening and weekend hours at three community clinics.',evidence:'62% of evening visits are from hourly workers and caregivers who cannot attend weekday appointments.',
+ opts:[
+ {t:'Cut evening hours at all three clinics to hit the savings target.',s:-2,f:'This protects the budget but undercuts the word <b>accessible</b> in the mission. The savings come directly from the patients the mission names.'},
+ {t:'Keep hours. Find the savings in executive travel, consulting, and vendor contracts.',s:2,f:'The trade-off is visible and consistent with the mission: leaders absorb cost before patients lose access.'},
+ {t:'Cut hours at one clinic and pilot evening telehealth for the other two.',s:0,f:'A reasonable compromise, but you still reduce in-person access first. Watch the data to confirm the pilot reaches the same patients.'}]},
+{tag:'Policy',title:'Nurse staffing',problem:'Overtime costs are rising and Finance proposes loosening nurse-to-patient ratios on two units.',evidence:'Units with looser ratios last year had 18% higher readmissions and the highest nurse turnover.',
+ opts:[
+ {t:'Use a float pool to flex ratios during peak weeks only, with a monthly safety review.',s:0,f:'Flexibility with oversight limits harm, but it keeps relying on the same people to absorb pressure.'},
+ {t:'Reduce staffing and cover gaps with mandatory overtime.',s:-2,f:'This treats people as a cost to minimize. Burnout and turnover erode the <b>dignity</b> and the care quality the mission promises.'},
+ {t:'Hold safe ratios, publish staffing data internally, and fund retention bonuses from the efficiency program.',s:2,f:'You close the gap between stated and actual priorities and make the trade-off transparent to staff.'}]},
+{tag:'Policy',title:'Billing for uninsured patients',problem:'Uncollected balances from uninsured patients grew 14%, and leaders want a faster collections process.',evidence:'Most unpaid balances are under $800, and financial counseling resolves about half of them before bills go out.',
+ opts:[
+ {t:'Send balances to collections after 60 days.',s:-2,f:'Fast, but it turns patients into accounts. This contradicts <b>restores dignity</b> and damages trust in the community.'},
+ {t:'Keep the current policy and revisit next year.',s:0,f:'Avoids new harm, but you leave a known problem unaddressed and the evidence suggests a better option exists.'},
+ {t:'Expand sliding-scale pricing and add financial counseling before billing.',s:2,f:'You use the evidence to protect both access and the organization’s long-term financial health.'}]},
+{tag:'Technology',title:'AI scheduling tool',problem:'A vendor offers an AI scheduling tool that promises 20% more throughput.',evidence:'Early pilots at other systems showed the tool deprioritized patients with complex needs and limited English.',
+ opts:[
+ {t:'Deploy system-wide now to maximize throughput. No manual override.',s:-2,f:'Efficiency without oversight can quietly exclude the very patients your mission names.'},
+ {t:'Pilot at two sites with clinician override, patient opt-out, and a bias audit before scaling.',s:2,f:'Technology serves the mission instead of redefining it. Governance is built in before scale.'},
+ {t:'Deploy system-wide and review results in 12 months.',s:0,f:'Review is good, but a year of unmonitored impact is a long time for any harm to compound.'}]},
+{tag:'Communication',title:'Service line closure',problem:'The pediatric dental service line will close in 90 days for financial reasons.',evidence:'The line serves 3,400 children, many covered by Medicaid, and no nearby provider has open capacity.',
+ opts:[
+ {t:'Announce after the closure and route questions to the PR team.',s:-2,f:'Leaders avoid accountability. Misalignment erodes trust fastest when people feel decisions were hidden.'},
+ {t:'Send a press release with a list of alternative providers.',s:0,f:'Informative, but one-way. It does not give affected families a voice or a transition plan.'},
+ {t:'Meet staff and community leaders first, explain the trade-offs, and fund a transition partnership.',s:2,f:'You make the trade-off visible, treat stakeholders as people, and show the cost of the decision openly.'}]},
+{tag:'Incentives',title:'Executive bonus metrics',problem:'The Board is setting bonus metrics for the executive team.',evidence:'Last year’s margin-only bonus coincided with a 9-point drop in patient access scores.',
+ opts:[
+ {t:'Tie bonuses to margin only.',s:-2,f:'People do what they are rewarded for. Margin-only incentives make profit the real mission.'},
+ {t:'Keep financial metrics and add a small quality modifier.',s:0,f:'A step in the right direction, but a small modifier signals quality is secondary.'},
+ {t:'Tie 40% of bonuses to patient access, safety, and staff retention.',s:2,f:'Rewards reinforce the mission, so daily behavior follows the stated purpose.'}]}
+];
+let i=0,scores=[];
+const stage=document.getElementById('stage'),steps=document.getElementById('steps'),tally=document.getElementById('tally'),needle=document.getElementById('needle'),gl=document.getElementById('gaugeLabel');
+function band(s){return s>0?'good':s<0?'bad':'mid'}
+function renderSteps(){steps.innerHTML=D.map((_,k)=>'<span class="'+(k<scores.length?band(scores[k]):k===i?'on':'')+'"></span>').join('')}
+function gauge(){const tot=scores.reduce((a,b)=>a+b,0),max=scores.length*2;const ang=max?(tot/12)*90:0;needle.style.transform='rotate('+Math.max(-90,Math.min(90,ang))+'deg)';
+ gl.textContent=scores.length?(tot>=6?'Words and decisions are aligned':tot>=0?'Drifting: some decisions contradict the mission':'A wide gap between mission and decisions'):'Awaiting your first recommendation';}
+function show(){
+ renderSteps();
+ if(i>=D.length){return finish();}
+ const d=D[i];
+ stage.innerHTML='<span class="tag t-ink">'+d.tag+'</span> <b>Decision '+(i+1)+' of '+D.length+': '+d.title+'</b><div class="meta" style="margin-top:10px"><div><b>1 · Define the problem:</b> '+d.problem+'</div><div><b>2 · Evidence from the case:</b> '+d.evidence+'</div><div><b>3 · Recommend an action:</b></div></div><div id="opts"></div><div id="fb"></div>';
+ const o=document.getElementById('opts');
+ d.opts.forEach((op,k)=>{const b=document.createElement('button');b.className='opt';b.textContent=op.t;b.onclick=()=>choose(k);o.appendChild(b);});
+}
+function choose(k){
+ const d=D[i],op=d.opts[k];scores.push(op.s);
+ [...document.querySelectorAll('#opts .opt')].forEach((b,n)=>{b.disabled=true;if(n===k)b.classList.add('chosen')});
+ const lab=op.s>0?['good','Reinforces the mission']:op.s<0?['bad','Erodes the mission']:['mid','Mixed signal'];
+ document.getElementById('fb').innerHTML='<div class="feedback '+lab[0]+'"><span class="tag t-'+lab[0]+'">'+lab[1]+'</span><p style="margin:8px 0 0">'+op.f+'</p></div><button class="btn" id="nx">'+(i<D.length-1?'Next decision →':'See my audit')+'</button>';
+ document.getElementById('nx').onclick=()=>{i++;show();};
+ tally.innerHTML=scores.map((s,n)=>'<span class="pill '+band(s)+'">'+(n+1)+'. '+D[n].title+'</span>').join('');
+ renderSteps();gauge();
+}
+function finish(){
+ const tot=scores.reduce((a,b)=>a+b,0),good=scores.filter(s=>s>0).length,bad=scores.filter(s=>s<0).length;
+ let head,msg;
+ if(tot>=6){head='Faithful steward';msg='Most of your recommendations made trade-offs visible and kept resources pointed at the people the mission names.';}
+ else if(tot>=0){head='Drifting leader';msg='Some decisions reinforced the mission, but others quietly worked against it. Misalignment erodes trust with employees, customers, and communities.';}
+ else{head='Mission in name only';msg='Your decisions put short-term results ahead of the words on the wall. This is the profit-first pattern a stewardship lens is meant to challenge.';}
+ stage.innerHTML='<div class="feedback '+(tot>=6?'good':tot>=0?'mid':'bad')+'"><h3>'+head+'</h3><p>'+msg+'</p><p><b>'+good+'</b> reinforcing · <b>'+(D.length-good-bad)+'</b> mixed · <b>'+bad+'</b> eroding</p><p>Reflect: which decision would be hardest to defend to a patient or an employee? Bring that example to Discussion 1.</p></div><button class="btn ghost" id="rs">Run the audit again</button>';
+ document.getElementById('rs').onclick=()=>{i=0;scores=[];tally.innerHTML='';gauge();show();};
+}
+show();gauge();
+</script></body></html>
