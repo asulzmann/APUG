@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 2 Interactive | External Scan Studio</title>
+<style>:root{--red:#d34147;--red-d:#a8353a;--ink:#222;--paper:#edebe8;--card:#fff;--line:#d9d4cc;--teal:#2a7f86;--gold:#e0a93b;--green:#3f8f5b;--muted:#5c5852}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;font-size:16px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0 0 .5em}
+h2{font-size:1.6rem}h3{font-size:1.2rem}
+p{margin:0 0 .8em}
+.hero{position:relative;color:#fff;min-height:290px;display:flex;align-items:center;overflow:hidden;background:#1b1b1d}
+.hero>svg{position:absolute;inset:0;width:100%;height:100%}
+.hero .inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 24px;width:100%}
+.hero .inner>*{max-width:560px}
+.badge{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:12px}
+.hero h1{font-size:2.3rem;margin-bottom:.3em;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.hero p{font-size:1.05rem;opacity:.95;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+.card{background:var(--card);border-radius:16px;padding:24px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--line)}
+.card.accent{border-left:6px solid var(--red)}
+.quote{border-left:4px solid var(--gold);background:#faf5e8;padding:12px 16px;border-radius:0 10px 10px 0;font-family:Georgia,serif;font-style:italic;margin:0 0 16px}
+.quote small{display:block;font-family:system-ui,sans-serif;font-style:normal;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.hero .inner>*{max-width:100%}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;border-bottom:2px solid var(--line);padding-bottom:10px}
+.tab{border:2px solid var(--line);background:#fff;color:var(--ink);padding:9px 16px;border-radius:99px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit}
+.tab[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.tab:focus-visible,.btn:focus-visible,.opt:focus-visible,.chip:focus-visible,.venn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.panel[hidden]{display:none}
+.btn{background:var(--red);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:1rem;font-family:inherit}
+.btn:hover{background:var(--red-d)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fff}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;font-size:1rem;font-family:inherit;color:var(--ink);transition:all .15s}
+.opt:hover:not([disabled]){border-color:var(--red);background:#fdf3f3}
+.opt[disabled]{cursor:default}
+.opt.chosen{border-color:var(--ink);background:#f4f1ec}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;color:#fff}
+.t-good{background:var(--green)}.t-mid{background:#b98617}.t-bad{background:#c0392b}.t-ink{background:var(--ink)}
+.feedback{border-radius:12px;padding:14px 16px;margin:12px 0;background:#f4f1ec;border-left:5px solid var(--ink)}
+.feedback.good{border-color:var(--green);background:#eaf5ee}.feedback.mid{border-color:#b98617;background:#fbf4e2}.feedback.bad{border-color:#c0392b;background:#fbeceb}
+.meta{display:grid;gap:6px;background:#f7f5f1;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:.95rem}
+.meta b{color:var(--red-d)}
+.bar{height:14px;background:#e6e2db;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--red);border-radius:99px;transition:width .5s}
+.steps{display:flex;gap:6px;margin-bottom:14px}
+.steps span{flex:1;height:8px;border-radius:99px;background:#e0dcd5;transition:background .3s}
+.steps span.on{background:var(--red)}.steps span.good{background:var(--green)}.steps span.mid{background:#d8a62b}.steps span.bad{background:#c0392b}
+.chip{border:2px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--red)}
+textarea,select,input[type=text]{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+.takeaways{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.takeaways{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.takeaways{grid-template-columns:1fr}}
+.take{background:#fff;border-radius:14px;padding:16px;border-top:5px solid var(--red);border:1px solid var(--line);border-top:5px solid var(--red)}
+.take h3{font-size:1rem;margin-bottom:.3em}.take p{font-size:.9rem;margin:0;color:var(--muted)}
+footer{max-width:1100px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:.85rem}
+.venn{cursor:pointer;transition:transform .2s,opacity .2s;transform-box:fill-box;transform-origin:center}
+.venn:hover{transform:scale(1.04)}
+.icon{width:44px;height:44px;color:var(--red-d);flex:none}
+.sr{position:absolute;left:-9999px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .3s}
+.venn-wrap,.ffwrap,.hubwrap,.ringwrap,.gauge-wrap{width:100%}
+svg{max-width:100%}
+
+.sig{border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:#fff}
+.sig header{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.sig .cat{flex:none;width:34px;height:34px;border-radius:50%;color:#fff;font-weight:800;display:grid;place-items:center;font-size:.8rem}
+.sig p{margin:0;font-size:.92rem;flex:1}
+.sl{display:grid;grid-template-columns:78px 1fr 24px;gap:8px;align-items:center;font-size:.82rem;font-weight:700}
+.to{display:flex;gap:6px;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:.82rem;margin-top:8px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.top3{display:grid;gap:12px}
+.top3 .row{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:#f7f5f1;border-radius:12px;padding:12px}
+.rank{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;font-family:Georgia,serif;font-weight:700;font-size:1.3rem;display:grid;place-items:center}
+.ffwrap{max-width:430px;margin:0 auto}
+.score{font-family:Georgia,serif;font-size:2.4rem;font-weight:700}
+.fs{display:grid;grid-template-columns:130px 1fr 60px;gap:8px;align-items:center;margin-bottom:8px;font-size:.9rem;font-weight:700}
+@media(max-width:520px){.fs{grid-template-columns:100px 1fr 54px}}
+</style></head><body>
+<header class="hero"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Radar scanning the horizon with signals">
+<defs><linearGradient id="w2bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14262b"/><stop offset="1" stop-color="#1b1b1d"/></linearGradient>
+<linearGradient id="w2sweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7fd1d6" stop-opacity="0"/><stop offset="1" stop-color="#7fd1d6" stop-opacity=".55"/></linearGradient></defs>
+<rect width="1200" height="320" fill="url(#w2bg)"/>
+<g stroke="#7fd1d6" stroke-opacity=".08"><line x1="0" y1="0" x2="0" y2="320"/><line x1="60" y1="0" x2="60" y2="320"/><line x1="120" y1="0" x2="120" y2="320"/><line x1="180" y1="0" x2="180" y2="320"/><line x1="240" y1="0" x2="240" y2="320"/><line x1="300" y1="0" x2="300" y2="320"/><line x1="360" y1="0" x2="360" y2="320"/><line x1="420" y1="0" x2="420" y2="320"/><line x1="480" y1="0" x2="480" y2="320"/><line x1="540" y1="0" x2="540" y2="320"/><line x1="600" y1="0" x2="600" y2="320"/><line x1="660" y1="0" x2="660" y2="320"/><line x1="720" y1="0" x2="720" y2="320"/><line x1="780" y1="0" x2="780" y2="320"/><line x1="840" y1="0" x2="840" y2="320"/><line x1="900" y1="0" x2="900" y2="320"/><line x1="960" y1="0" x2="960" y2="320"/><line x1="1020" y1="0" x2="1020" y2="320"/><line x1="1080" y1="0" x2="1080" y2="320"/><line x1="1140" y1="0" x2="1140" y2="320"/><line x1="0" y1="0" x2="1200" y2="0"/><line x1="0" y1="60" x2="1200" y2="60"/><line x1="0" y1="120" x2="1200" y2="120"/><line x1="0" y1="180" x2="1200" y2="180"/><line x1="0" y1="240" x2="1200" y2="240"/><line x1="0" y1="300" x2="1200" y2="300"/></g>
+<circle cx="900" cy="170" r="40" fill="none" stroke="#7fd1d6" stroke-opacity=".35" stroke-width="1.5"/><circle cx="900" cy="170" r="80" fill="none" stroke="#7fd1d6" stroke-opacity=".35" stroke-width="1.5"/><circle cx="900" cy="170" r="120" fill="none" stroke="#7fd1d6" stroke-opacity=".35" stroke-width="1.5"/><circle cx="900" cy="170" r="160" fill="none" stroke="#7fd1d6" stroke-opacity=".35" stroke-width="1.5"/><circle cx="900" cy="170" r="200" fill="none" stroke="#7fd1d6" stroke-opacity=".35" stroke-width="1.5"/>
+<line x1="700" y1="170" x2="1100" y2="170" stroke="#7fd1d6" stroke-opacity=".3"/><line x1="900" y1="-30" x2="900" y2="370" stroke="#7fd1d6" stroke-opacity=".3"/>
+<path d="M900 170 L900 -30 A200 200 0 0 1 1041 29Z" fill="url(#w2sweep)" transform="rotate(-20 900 170)"/>
+<circle cx="960" cy="95" r="6" fill="#e0a93b"/><circle cx="1010" cy="190" r="7" fill="#d34147"/><circle cx="850" cy="240" r="5" fill="#7fd1d6"/><circle cx="930" cy="260" r="6" fill="#e0a93b"/><circle cx="790" cy="130" r="5" fill="#d34147"/><circle cx="1050" cy="110" r="4" fill="#7fd1d6"/><circle cx="900" cy="170" r="7" fill="#fff"/>
+<g font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#7fd1d6" opacity=".85"><text x="1100" y="60">P</text><text x="1135" y="120">E</text><text x="1135" y="215">S</text><text x="1100" y="275">T</text><text x="700" y="275">L</text><text x="670" y="60">E</text></g>
+</svg><div class="inner"><span class="badge">BUSN 480 · Week 2</span><h1>External Scan Studio</h1><p>Scan the environment before you decide. Prioritize PESTLE signals, then see how AI reshapes Porter’s Five Forces.</p></div></header>
+<main>
+<section class="card accent">
+<div class="quote">“Commit to the Lord whatever you do, and he will establish your plans.”<small>Proverbs 16:3 (NIV, 2011)</small></div>
+<p>Veritas Health Group runs hospitals and community clinics across a mid-sized region. Before choosing a direction, you must scan what is happening <b>outside</b> the organization. Evidence over assumption: rank each force by <b>impact</b> and <b>likelihood</b>, then separate <b>threats</b> from <b>opportunities</b>.</p>
+</section>
+
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" aria-selected="true" data-p="p1">1 · PESTLE Prioritizer</button>
+<button class="tab" role="tab" aria-selected="false" data-p="p2">2 · Five Forces + AI</button>
+</div>
+
+<section id="p1" class="panel">
+<div class="card">
+<h2>PESTLE Prioritizer</h2>
+<p>Adjust the sliders for each signal. Bubbles move on the matrix in real time. Mark each as a threat or an opportunity.</p>
+<div class="grid2" style="grid-template-columns:1.1fr 1fr">
+<div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 430" role="img" aria-label="Impact versus likelihood matrix">
+<rect x="70" y="20" width="480" height="360" fill="#fbfaf8" stroke="#999"/>
+<rect x="310.0" y="20" width="240.0" height="180.0" fill="#d34147" fill-opacity=".13"/>
+<rect x="70" y="20" width="240.0" height="180.0" fill="#e0a93b" fill-opacity=".14"/>
+<rect x="310.0" y="200.0" width="240.0" height="180.0" fill="#2a7f86" fill-opacity=".12"/>
+<line x1="118" y1="20" x2="118" y2="380" stroke="#d9d4cc"/><line x1="166" y1="20" x2="166" y2="380" stroke="#d9d4cc"/><line x1="214" y1="20" x2="214" y2="380" stroke="#d9d4cc"/><line x1="262" y1="20" x2="262" y2="380" stroke="#d9d4cc"/><line x1="310" y1="20" x2="310" y2="380" stroke="#d9d4cc"/><line x1="358" y1="20" x2="358" y2="380" stroke="#d9d4cc"/><line x1="406" y1="20" x2="406" y2="380" stroke="#d9d4cc"/><line x1="454" y1="20" x2="454" y2="380" stroke="#d9d4cc"/><line x1="502" y1="20" x2="502" y2="380" stroke="#d9d4cc"/><line x1="70" y1="56" x2="550" y2="56" stroke="#d9d4cc"/><line x1="70" y1="92" x2="550" y2="92" stroke="#d9d4cc"/><line x1="70" y1="128" x2="550" y2="128" stroke="#d9d4cc"/><line x1="70" y1="164" x2="550" y2="164" stroke="#d9d4cc"/><line x1="70" y1="200" x2="550" y2="200" stroke="#d9d4cc"/><line x1="70" y1="236" x2="550" y2="236" stroke="#d9d4cc"/><line x1="70" y1="272" x2="550" y2="272" stroke="#d9d4cc"/><line x1="70" y1="308" x2="550" y2="308" stroke="#d9d4cc"/><line x1="70" y1="344" x2="550" y2="344" stroke="#d9d4cc"/><line x1="310.0" y1="20" x2="310.0" y2="380" stroke="#777" stroke-dasharray="5 4"/><line x1="70" y1="200.0" x2="550" y2="200.0" stroke="#777" stroke-dasharray="5 4"/>
+<g font-family="Georgia,serif" font-size="15" font-weight="700" fill="#555" opacity=".75"><text x="538" y="44" text-anchor="end">ACT NOW</text><text x="82" y="44">PREPARE</text><text x="538" y="368" text-anchor="end">MONITOR</text><text x="82" y="368">WATCH</text></g>
+<g font-family="system-ui,sans-serif" font-size="13" fill="#444"><text x="310.0" y="416" text-anchor="middle" font-weight="700">LIKELIHOOD →</text><text transform="translate(22 200.0) rotate(-90)" text-anchor="middle" font-weight="700">IMPACT →</text>
+<text x="70" y="396" text-anchor="middle">1</text><text x="550" y="396" text-anchor="middle">10</text><text x="60" y="384" text-anchor="end">1</text><text x="60" y="28" text-anchor="end">10</text></g>
+<g id="bubbles"></g>
+</svg>
+<div class="legend" id="legend"></div></div>
+<div id="sigs" style="max-height:640px;overflow:auto;padding-right:6px"></div>
+</div></div>
+<div class="card">
+<h2>From scan to strategy</h2>
+<p>Your three highest-scoring signals (impact × likelihood) appear here. Write a strategic response for each. Every finding should connect to an action.</p>
+<div class="top3" id="top3"></div>
+</div>
+</section>
+
+<section id="p2" class="panel" hidden>
+<div class="card">
+<h2>Porter’s Five Forces: Regional Healthcare</h2>
+<p>Set each force from <b>1 (weak pressure)</b> to <b>5 (strong pressure)</b>. Then apply the AI shift to see how artificial intelligence redraws the industry. Select a force label on the chart to read about it.</p>
+<div class="grid2">
+<div class="ffwrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-80 0 580 410" role="img" aria-label="Radar chart of Porter's Five Forces">
+<polygon points="210.0,172.0 236.6,191.3 226.5,222.7 193.5,222.7 183.4,191.3" fill="none" stroke="#cfc9c0" stroke-width="1"/><polygon points="210.0,144.0 263.3,182.7 242.9,245.3 177.1,245.3 156.7,182.7" fill="none" stroke="#cfc9c0" stroke-width="1"/><polygon points="210.0,116.0 289.9,174.0 259.4,268.0 160.6,268.0 130.1,174.0" fill="none" stroke="#cfc9c0" stroke-width="1"/><polygon points="210.0,88.0 316.5,165.4 275.8,290.6 144.2,290.6 103.5,165.4" fill="none" stroke="#cfc9c0" stroke-width="1"/><polygon points="210.0,60.0 343.1,156.7 292.3,313.3 127.7,313.3 76.9,156.7" fill="none" stroke="#cfc9c0" stroke-width="1"/><line x1="210" y1="200" x2="210.0" y2="60.0" stroke="#cfc9c0"/><line x1="210" y1="200" x2="343.1" y2="156.7" stroke="#cfc9c0"/><line x1="210" y1="200" x2="292.3" y2="313.3" stroke="#cfc9c0"/><line x1="210" y1="200" x2="127.7" y2="313.3" stroke="#cfc9c0"/><line x1="210" y1="200" x2="76.9" y2="156.7" stroke="#cfc9c0"/>
+<polygon id="ff-poly" points="" fill="#d34147" fill-opacity=".3" stroke="#a8353a" stroke-width="3" stroke-linejoin="round" style="transition:all .4s"/>
+<polygon id="ff-ghost" points="" fill="none" stroke="#2a7f86" stroke-width="2" stroke-dasharray="6 5"/>
+<g id="ff-dots"></g><text id="ffl-0" class="fflabel" data-k="0" x="210.0" y="38.0" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#222" style="cursor:pointer">Rivalry</text><text id="ffl-1" class="fflabel" data-k="1" x="367.9" y="152.7" text-anchor="start" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#222" style="cursor:pointer">New entrants</text><text id="ffl-2" class="fflabel" data-k="2" x="307.6" y="338.3" text-anchor="start" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#222" style="cursor:pointer">Substitutes</text><text id="ffl-3" class="fflabel" data-k="3" x="112.4" y="338.3" text-anchor="end" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#222" style="cursor:pointer">Buyer power</text><text id="ffl-4" class="fflabel" data-k="4" x="52.1" y="152.7" text-anchor="end" font-family="system-ui,sans-serif" font-size="13" font-weight="700" fill="#222" style="cursor:pointer">Supplier power</text>
+<g font-family="system-ui,sans-serif" font-size="10" fill="#888"><text x="214" y="182.0">1</text><text x="214" y="70">5</text></g>
+</svg></div>
+<div>
+<div style="display:flex;gap:18px;align-items:center;margin-bottom:12px"><div><div class="score" id="attr">0</div><div style="font-size:.8rem;font-weight:700;color:var(--muted)">INDUSTRY ATTRACTIVENESS</div></div>
+<button class="btn" id="aiBtn" aria-pressed="false">Apply the AI shift</button></div>
+<div id="fsl"></div>
+<div class="feedback" id="ffinfo" aria-live="polite"><b>Select a force</b><p style="margin:6px 0 0">Select a label on the chart to see what drives it and how AI changes it.</p></div>
+<p style="font-size:.85rem;color:var(--muted)"><span style="color:#a8353a;font-weight:700">Solid red</span> = your current ratings · <span style="color:#2a7f86;font-weight:700">dashed teal</span> = your baseline before AI.</p>
+</div></div></div>
+</section>
+
+<section class="card"><h2>Takeaways</h2><div class="takeaways">
+<div class="take"><h3>Scan before you decide</h3><p>PESTLE and Five Forces give a structured view of the environment.</p></div>
+<div class="take"><h3>Evidence over assumption</h3><p>Strong scans cite sources and rank forces by impact.</p></div>
+<div class="take"><h3>AI redraws industries</h3><p>Technology changes competition, customer expectations, and risk.</p></div>
+<div class="take"><h3>Insight drives action</h3><p>Every finding should connect to a strategic response.</p></div></div></section>
+</main>
+<footer>Based on the BUSN 480 Week 2 Deep Dive | Strategic Planning &amp; Identification. Signals are fictional teaching examples, not forecasts.</footer>
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==t.dataset.p);});
+/* ---- PESTLE ---- */
+const CAT={P:['Political','#d34147'],Ec:['Economic','#e0a93b'],S:['Social','#2a7f86'],T:['Technological','#6a4c93'],L:['Legal','#3f8f5b'],En:['Environmental','#7a5a43']};
+const SIG=[
+{c:'P',t:'State Medicaid expansion decision pending in the next legislative session.',i:8,l:5,k:'O'},
+{c:'Ec',t:'Interest rates and supply inflation raise capital and operating costs.',i:7,l:8,k:'T'},
+{c:'S',t:'Aging population and rising demand for mental health services.',i:7,l:9,k:'O'},
+{c:'T',t:'Generative AI documentation tools reach clinical maturity.',i:6,l:8,k:'O'},
+{c:'L',t:'New federal rules on algorithmic transparency and patient data privacy.',i:8,l:7,k:'T'},
+{c:'En',t:'Extreme weather events strain facilities and supply chains.',i:5,l:4,k:'T'},
+{c:'S',t:'Nursing workforce shortage and burnout intensify.',i:9,l:8,k:'T'},
+{c:'T',t:'Big-tech entrants launch AI-driven virtual primary care.',i:7,l:6,k:'T'}];
+const st=SIG.map(s=>({...s}));
+const sigs=document.getElementById('sigs'),bub=document.getElementById('bubbles');
+document.getElementById('legend').innerHTML=Object.entries(CAT).map(([k,v])=>'<span><i style="background:'+v[1]+'"></i>'+v[0]+'</span>').join('')+'<span><i style="background:#fff;border:3px solid #c0392b"></i>Threat</span><span><i style="background:#fff;border:3px solid #3f8f5b"></i>Opportunity</span>';
+st.forEach((s,n)=>{
+ const d=document.createElement('div');d.className='sig';
+ d.innerHTML='<header><span class="cat" style="background:'+CAT[s.c][1]+'">'+s.c+'</span><p>'+s.t+'</p></header>'
+ +'<div class="sl"><label for="i'+n+'">Impact</label><input id="i'+n+'" type="range" min="1" max="10" value="'+s.i+'"><output id="io'+n+'">'+s.i+'</output></div>'
+ +'<div class="sl"><label for="l'+n+'">Likelihood</label><input id="l'+n+'" type="range" min="1" max="10" value="'+s.l+'"><output id="lo'+n+'">'+s.l+'</output></div>'
+ +'<div class="to"><button class="chip" data-k="T">Threat</button><button class="chip" data-k="O">Opportunity</button></div>';
+ sigs.appendChild(d);
+ d.querySelector('#i'+n).oninput=e=>{s.i=+e.target.value;d.querySelector('#io'+n).textContent=s.i;draw();};
+ d.querySelector('#l'+n).oninput=e=>{s.l=+e.target.value;d.querySelector('#lo'+n).textContent=s.l;draw();};
+ d.querySelectorAll('.chip').forEach(b=>{if(b.dataset.k===s.k)b.classList.add('on');b.onclick=()=>{s.k=b.dataset.k;d.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));draw();};});
+});
+const NS='http://www.w3.org/2000/svg';
+const bx=l=>70+(l-0.5)*48,by=i=>380-(i-0.5)*36;
+const circ=[];
+st.forEach((s,n)=>{const g=document.createElementNS(NS,'g');g.style.transition='transform .35s';g.innerHTML='<circle r="17" stroke-width="4"/><text text-anchor="middle" y="4" font-family="system-ui" font-size="11" font-weight="800" fill="#fff">'+s.c+'</text><title></title>';bub.appendChild(g);circ.push(g);});
+function draw(){
+ st.forEach((s,n)=>{
+  // small offset so overlapping bubbles stay readable
+  const off=((n%3)-1)*6;const g=circ[n];
+  g.style.transform='translate('+(bx(s.l)+off)+'px,'+(by(s.i)+off)+'px)';
+  const c=g.querySelector('circle');c.setAttribute('fill',CAT[s.c][1]);c.setAttribute('stroke',s.k==='T'?'#c0392b':'#3f8f5b');
+  g.querySelector('title').textContent=CAT[s.c][0]+': '+s.t;
+ });
+ const top=[...st].map((s,n)=>({...s,n,score:s.i*s.l})).sort((a,b)=>b.score-a.score).slice(0,3);
+ const el=document.getElementById('top3');
+ const prev={};el.querySelectorAll('textarea').forEach(t=>prev[t.dataset.n]=t.value);
+ el.innerHTML=top.map((s,r)=>'<div class="row"><div class="rank">'+(r+1)+'</div><div><b>'+CAT[s.c][0]+'</b> <span class="tag t-'+(s.k==='T'?'bad':'good')+'">'+(s.k==='T'?'Threat':'Opportunity')+'</span> <span style="color:var(--muted);font-size:.85rem">score '+s.score+'</span><p style="margin:4px 0 8px">'+s.t+'</p><label class="sr" for="r'+s.n+'">Strategic response</label><textarea id="r'+s.n+'" data-n="'+s.n+'" rows="2" placeholder="'+(s.k==='T'?'How will Veritas reduce or prepare for this threat?':'How could Veritas act on this opportunity?')+'">'+(prev[s.n]||'')+'</textarea></div></div>').join('');
+}
+draw();
+/* ---- Five Forces ---- */
+const FF=[
+{n:'Rivalry',b:4,ai:1,d:'Competition among existing hospitals and clinic groups for patients, physicians, and insurer contracts.',a:'AI-enabled competitors can lower costs and speed decisions, which intensifies price and service competition.'},
+{n:'New entrants',b:2,ai:2,d:'How easily new competitors can enter. Regulation and capital needs have kept barriers high in healthcare.',a:'AI-native startups and tech firms can launch virtual care without buildings or large staff, lowering barriers.'},
+{n:'Substitutes',b:3,ai:1,d:'Different ways to meet the same need, such as urgent care, retail clinics, and telehealth.',a:'AI triage, symptom checkers, and remote monitoring become credible substitutes for in-person visits.'},
+{n:'Buyer power',b:4,ai:0,d:'Insurers and large employers negotiate rates and steer patients to lower-cost providers.',a:'AI does not change buyer concentration much, though price transparency tools can strengthen buyers.'},
+{n:'Supplier power',b:3,ai:1,d:'Power of drug and device makers, staffing agencies, and technology vendors.',a:'Dependence on a few AI and cloud vendors can create new supplier power and lock-in risk.'}];
+const val=FF.map(f=>f.b),base=FF.map(f=>f.b);let aiOn=false,sel=0;
+const fsl=document.getElementById('fsl');
+FF.forEach((f,k)=>{const r=document.createElement('div');r.className='fs';r.innerHTML='<label for="f'+k+'">'+f.n+'</label><input id="f'+k+'" type="range" min="1" max="5" value="'+f.b+'"><output id="fo'+k+'">'+f.b+'</output>';fsl.appendChild(r);
+ r.querySelector('input').oninput=e=>{val[k]=+e.target.value;base[k]=aiOn?val[k]-f.ai:val[k];sel=k;ff();};});
+const cx=210,cy=200,R=140;const P=(k,r)=>{const a=(-90+72*k)*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+const poly=a=>a.map((v,k)=>P(k,R*v/5).map(n=>n.toFixed(1)).join(',')).join(' ');
+function ff(){
+ document.getElementById('ff-poly').setAttribute('points',poly(val));
+ document.getElementById('ff-ghost').setAttribute('points',aiOn?poly(base):'');
+ const dots=document.getElementById('ff-dots');dots.innerHTML='';
+ val.forEach((v,k)=>{const[p,q]=P(k,R*v/5);dots.insertAdjacentHTML('beforeend','<circle cx="'+p+'" cy="'+q+'" r="6" fill="#a8353a" stroke="#fff" stroke-width="2"/>');
+  document.getElementById('f'+k).value=v;document.getElementById('fo'+k).textContent=v;
+  document.getElementById('ffl-'+k).setAttribute('fill',k===sel?'#a8353a':'#222');});
+ const avg=val.reduce((a,b)=>a+b,0)/5;document.getElementById('attr').textContent=Math.round((5-avg)/4*100)+'%';
+ const f=FF[sel];document.getElementById('ffinfo').innerHTML='<b>'+f.n+' ('+val[sel]+'/5)</b><p style="margin:6px 0">'+f.d+'</p><p style="margin:0"><b>AI effect:</b> '+f.a+'</p>';
+}
+document.querySelectorAll('.fflabel').forEach(l=>l.onclick=()=>{sel=+l.dataset.k;ff();});
+document.getElementById('aiBtn').onclick=e=>{aiOn=!aiOn;e.target.setAttribute('aria-pressed',aiOn);e.target.textContent=aiOn?'Remove the AI shift':'Apply the AI shift';
+ FF.forEach((f,k)=>{val[k]=aiOn?Math.min(5,base[k]+f.ai):base[k];});ff();};
+ff();
+</script></body></html>
